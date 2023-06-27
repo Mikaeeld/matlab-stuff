@@ -1,9 +1,13 @@
-function [beamWidth, FWHM] = findBeamWidth(intensity)
+function [beamWidth, FWHM, params] = findBeamWidth(intensity, startingPoint)
 %findBeamWidth Fits a gaussian to a 1d intensity map and finds the 1/e^2
 %value
 %   Detailed explanation goes here
 %https://www.mathworks.com/matlabcentral/answers/499451-gaussian-fit-to-xy-data-and-extracting-fwhm
-fit = fitGaussian(intensity);
+if nargin > 1
+    fit = fitGaussian(intensity, startingPoint);
+else
+    fit = fitGaussian(intensity);
+end
 params = coeffvalues(fit);
 
 % Extract the standard deviation (sigma) from the parameter values

@@ -1,4 +1,4 @@
-function fitresult = fitGaussian(y)
+function [fitresult, coeffs] = fitGaussian(y, startPoint)
 %CREATEFIT(X2)
 %  Create a fit.
 %
@@ -21,11 +21,14 @@ y = cast(y, 'double');
 ft = fittype( 'gauss1' );
 opts = fitoptions( 'Method', 'NonlinearLeastSquares' );
 opts.Display = 'Off';
-opts.Lower = [-Inf -Inf 0];
-opts.StartPoint = [1949946 330 113.032707628494];
+
+if nargin > 1
+    opts.StartPoint = startPoint;
+end
 
 % Fit model to data.
 fitresult = fit( xData, yData, ft, opts );
+coeffs = coeffvalues(fitresult);
 
 % Plot fit with data.
 % figure( 'Name', 'untitled fit 1' );
